@@ -18,7 +18,7 @@ jobs:
 
     - name: Build and tag Docker image
       run: |
-        docker build -t docker build -t iamrahul .
+        docker build -t iamrahul .
         docker tag docker pull therahul7777/timeoff-management-app:timeoff docker pull therahul7777/timeoff-management-app:${{ github.sha }}
 
     - name: Push Docker image to Docker Hub
