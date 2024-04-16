@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,13 +19,14 @@ jobs:
     - name: Build and tag Docker image
       run: |
         docker build -t iamrahul .
-        docker tag docker pull therahul7777/timeoff-management-app:timeoff docker pull therahul7777/timeoff-management-app:${{ github.sha }}
+        docker tag iamrahul:latest therahul7777/timeoff-management-app:${{ github.sha }}
 
     - name: Push Docker image to Docker Hub
-      run: docker push docker pull therahul7777/timeoff-management-app
+      run: docker push therahul7777/timeoff-management-app:${{ github.sha }}
 
     - name: Login to AWS ECR
       run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
+
     - name: Tag Docker image for ECR
       run: docker tag iamrahul:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
 
