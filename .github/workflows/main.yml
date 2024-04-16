@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: DockerHub to AWS ECR
 
 on:
   push:
@@ -16,16 +16,14 @@ jobs:
     - name: Login to Docker Hub
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: Build and tag Docker image
-      run: |
-        docker build -t iamrahul .
-        docker tag iamrahul:latest therahul7777/timeoff-management-app:${{ github.sha }}
-
-    - name: Push Docker image to Docker Hub
-      run: docker push therahul7777/timeoff-management-app:${{ github.sha }}
+    - name: Pull Docker image from DockerHub
+      run: docker pull therahul7777/timeoff-management-app:timeoff
 
     - name: Login to AWS ECR
       run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
+
+    - name: Build Docker image
+      run: docker build -t iamrahul .
 
     - name: Tag Docker image for ECR
       run: docker tag iamrahul:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
