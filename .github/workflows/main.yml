@@ -18,28 +18,29 @@ jobs:
 
       - name: Install Docker
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
+          sudo apt-get update && sudo apt-get install -y docker.io
           sudo usermod -aG docker $USER
           sudo chmod 777 /var/run/docker.sock
         # This installs Docker and gives permission to the current user to access the Docker daemon
 
       - name: Login to DockerHub
-        run: sudo echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         # Make sure you have added DockerHub credentials as secrets in your GitHub repository
 
       - name: Pull Docker image from DockerHub
-        run: sudo docker pull therahul7777/timeoff-management-app:timeoff
-        # Replace "yourdockerhubusername/yourimage:tag" with your DockerHub image details
+        run: |
+          docker pull therahul7777/timeoff-management-app:timeoff
+        # Replace "therahul7777/timeoff-management-app:timeoff" with your DockerHub image details
 
       - name: Build Docker image
-        run: sudo  docker build -t iam .
-        # Replace "yourimagename" with the name you want to give to your local Docker image
+        run: |
+          docker build -t iam .
+        # Replace "iam" with the name you want to give to your local Docker image
 
       - name: Install AWS CLI
         run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
+          sudo apt-get update && sudo apt-get install -y awscli
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1
@@ -47,13 +48,16 @@ jobs:
         # Make sure you have added AWS access keys as secrets in your GitHub repository
 
       - name: Login to AWS ECR
-        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
-        # Replace "your-region" andocker push your-aws-account-id.dkr.ecr.your-region.amazonaws.com/yourimagename:latestd "your-aws-account-id" with your AWS region and account details
+        run: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
+        # Replace "us-east-1" and "public.ecr.aws/y6b7y1z6" with your AWS region and ECR repository details
 
       - name: Tag Docker image for ECR
-        run: sudo  docker tag iamrahul:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
-        # Replace "yourimagename" and "your-aws-account-id.your-region.amazonaws.com" with your Docker image name and AWS ECR repository details
+        run: |
+          docker tag iam:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
+        # Replace "iam:latest" and "public.ecr.aws/y6b7y1z6/iamrahul:latest" with your Docker image name and ECR repository details
 
       - name: Push Docker image to AWS ECR
-        run: sudo docker push public.ecr.aws/y6b7y1z6/iamrahul:latest
-        # Replace "your-aws-account-id.your-region.amazonaws.com" and "yourimagename" with your AWS ECR repository details and Docker image name
+        run: |
+          docker push public.ecr.aws/y6b7y1z6/iamrahul:latest
+        # Replace "public.ecr.aws/y6b7y1z6/iamrahul:latest" with your ECR repository details and Docker image name
