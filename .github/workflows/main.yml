@@ -23,7 +23,7 @@ jobs:
 
       - name: Login to DockerHub
         run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" 
 
       - name: Pull Docker image from DockerHub
         run: |
