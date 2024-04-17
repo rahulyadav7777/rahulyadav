@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  # You can customize the trigger events as needed
 
 env:
   ACTIONS_RUNNER_DEBUG: true
@@ -21,43 +20,34 @@ jobs:
           sudo apt-get update && sudo apt-get install -y docker.io
           sudo usermod -aG docker $USER
           sudo chmod 777 /var/run/docker.sock
-        # This installs Docker and gives permission to the current user to access the Docker daemon
 
       - name: Login to DockerHub
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-        # Make sure you have added DockerHub credentials as secrets in your GitHub repository
 
       - name: Pull Docker image from DockerHub
         run: |
-          docker pull therahul7777/timeoff-management-app:timeoff
-        # Replace "therahul7777/timeoff-management-app:timeoff" with your DockerHub image details
+          docker pull therahul7777/timeoff-management-app:timeoff || true
 
       - name: Build Docker image
         run: |
           docker build -t iam .
-        # Replace "iam" with the name you want to give to your local Docker image
-
+        
       - name: Install AWS CLI
         run: |
           sudo apt-get update && sudo apt-get install -y awscli
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1
-        # This installs AWS CLI and configures it with the provided access keys and region
-        # Make sure you have added AWS access keys as secrets in your GitHub repository
 
       - name: Login to AWS ECR
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
-        # Replace "us-east-1" and "public.ecr.aws/y6b7y1z6" with your AWS region and ECR repository details
 
       - name: Tag Docker image for ECR
         run: |
           docker tag iam:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
-        # Replace "iam:latest" and "public.ecr.aws/y6b7y1z6/iamrahul:latest" with your Docker image name and ECR repository details
 
       - name: Push Docker image to AWS ECR
         run: |
           docker push public.ecr.aws/y6b7y1z6/iamrahul:latest
-        # Replace "public.ecr.aws/y6b7y1z6/iamrahul:latest" with your ECR repository details and Docker image name
