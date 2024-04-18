@@ -13,9 +13,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Pull Docker image from DockerHub
+      - name: Env to the code
         env:
-          yadav: ${{ github.run.id }}
+         yadav: ${{ github.run.id }}
        
       - name: Login to AWS ECR
         run: |
