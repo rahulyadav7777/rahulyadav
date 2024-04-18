@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Pull Docker image from DockerHub
-        env:
-        IMAGE_TAG: ${{github.run_id}}
+         env:
+         IMAGE_TAG: ${{github.run_id}}
       
         run: |
           sudo docker pull therahul7777/timeoff-management-app:timeoff 
