@@ -1,12 +1,10 @@
-name: Docker Build and Push
+name: Dyadav
 
 on:
   push:
     branches:
       - main
 
-env:
-  ACTIONS_RUNNER_DEBUG: true
 
 jobs:
   build_and_push:
