@@ -15,27 +15,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Docker
-        run: |
-          sudo apt-get update && sudo apt-get install -y docker.io
-          sudo usermod -aG docker $USER
-          sudo chmod 777 /var/run/docker.sock
-
-      - name: Login to DockerHub
-        run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" 
-
       - name: Pull Docker image from DockerHub
         run: |
           sudo docker pull therahul7777/timeoff-management-app:timeoff 
-        
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update && sudo apt-get install -y awscli
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-east-1
-
+       
       - name: Login to AWS ECR
         run: |
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
@@ -43,6 +26,7 @@ jobs:
       - name: Tag Docker image for ECR
         run: |
          sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:yadav
+         
       - name: Push Docker image to AWS ECR
         run: |
-         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:latest
+         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:yadav
