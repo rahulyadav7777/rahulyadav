@@ -15,7 +15,7 @@ jobs:
 
       - name: Env to the code
         env:
-         yadav: ${{ github.run.id }}
+         yadav: iamrahul
        
       - name: Login to AWS ECR
         run: |
@@ -24,8 +24,8 @@ jobs:
       - name: Tag Docker image for ECR
         run: |
          sudo docker pull therahul7777/timeoff-management-app:timeoff 
-         sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:$yadav
+         sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/$yadav:${{ github.run_id }}
          
       - name: Push Docker image to AWS ECR
         run: |
-         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:$yadav
+         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/$yadav:${{ github.run_id }}
