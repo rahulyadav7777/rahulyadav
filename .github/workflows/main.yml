@@ -27,12 +27,7 @@ jobs:
 
       - name: Pull Docker image from DockerHub
         run: |
-          docker pull therahul7777/timeoff-management-app:timeoff || true
-
-      - name: Build Docker image
-        run: |
-         cd timeoff-management-app
-          docker build -t iam .
+          sudo docker pull therahul7777/timeoff-management-app:timeoff 
         
       - name: Install AWS CLI
         run: |
@@ -43,12 +38,11 @@ jobs:
 
       - name: Login to AWS ECR
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y6b7y1z6
+          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Tag Docker image for ECR
         run: |
-          docker tag iam:latest public.ecr.aws/y6b7y1z6/iamrahul:latest
-
+         sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:yadav
       - name: Push Docker image to AWS ECR
         run: |
-          docker push public.ecr.aws/y6b7y1z6/iamrahul:latest
+         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:latest
