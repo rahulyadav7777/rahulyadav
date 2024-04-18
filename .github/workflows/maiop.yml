@@ -1,0 +1,21 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  build_and_push:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: ecr login and push image on ecr
+        run: | 
+         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
+         sudo docker pull nginx:latest
+         sudo docker tag nginx:latest 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:latest
+         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:latest
+         ls
