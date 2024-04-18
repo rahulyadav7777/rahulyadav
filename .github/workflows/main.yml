@@ -25,7 +25,7 @@ jobs:
 
       - name: Tag Docker image for ECR
         run: |
-         sudo docker tag therahul7777/timeoff-management-app 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:${{ github.run_id }}
+         sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:${{ github.run_id }}
          
       - name: Push Docker image to AWS ECR
         run: |
