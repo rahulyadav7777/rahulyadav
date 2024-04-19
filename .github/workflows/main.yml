@@ -17,5 +17,5 @@ jobs:
         
       - name: Dockerpull
         run: |
-         sudo docker build -t mynginx . 
-         sudo docker run --name yadavyadav -d -p 9783:80 mynginx
+         sudo docker build -t rahul . 
+         sudo docker run --name yadavyadavdf -d -p 5555:80 rahul
