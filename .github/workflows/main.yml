@@ -25,8 +25,9 @@ jobs:
           ECR_IMAGE: iamrahul
           
         run: |
-         sudo docker build -t rahul . 
-         sudo docker run --name anita -d -p 8094:80 rahul
-         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
-         sudo docker tag rahul:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+        
+         sudo docker build -t yadav . 
+         sudo docker run --name anitalali -d -p 8095:80 yadav
+         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
+         sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
          sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
