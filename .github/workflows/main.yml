@@ -26,7 +26,7 @@ jobs:
           
         run: |
          sudo docker build -t rahul . 
-         sudo docker run --name rahulali -d -p 7268:80 rahul
+         sudo docker run --name anita -d -p 8094:80 rahul
          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
          sudo docker tag rahul:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
          sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
