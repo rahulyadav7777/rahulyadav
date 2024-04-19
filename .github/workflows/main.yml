@@ -25,9 +25,8 @@ jobs:
           ECR_IMAGE: iamrahul
           
         run: |
-        
          sudo docker build -t yadav . 
-         sudo docker run --name anitalaliyadav -d -p 7785:80 yadav
+         sudo docker run --name jaihanuman -d -p 7777:80 yadav
          aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
          sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
