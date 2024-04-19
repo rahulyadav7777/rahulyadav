@@ -12,20 +12,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
         
       - name: Dockerpull
         run: |
-         sudo docker pull therahul7777/timeoff-management-app:timeoff 
-  
-      - name: Login to AWS ECR
-        run: |
-          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
-
-      - name: Tag Docker image for ECR
-        run: |
-         sudo docker tag therahul7777/timeoff-management-app:timeoff 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:${{ github.run_id }}
-         
-      - name: Push Docker image to AWS ECR
-        run: |
-         sudo docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/iamrahul:${{ github.run_id }}
+         sudo docker build -t mynginx . 
+         sudo docker run --name yadav -d -p 7778:80 mynginx
