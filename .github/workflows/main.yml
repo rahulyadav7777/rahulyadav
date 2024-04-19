@@ -18,4 +18,7 @@ jobs:
       - name: Dockerpull
         run: |
          sudo docker build -t rahul . 
-         sudo docker run --name yadavyadavdf -d -p 5555:80 rahul
+         sudo docker run --name yadavyadavdfrgftg -d -p 5585:80 rahul
+         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
+         sudo docker tag rahul:latest 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:yadav
+         sudo  docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:yadav
