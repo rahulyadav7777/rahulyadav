@@ -1,4 +1,4 @@
-name: mynew ecr
+name: my new ecr code
 
 on:
   push:
