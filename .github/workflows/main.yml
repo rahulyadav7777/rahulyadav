@@ -18,9 +18,12 @@ jobs:
       - name: Dockerpull
         env:
           IMAGE_TAG: yadav-${{ github.run_id }}
+          ECR_REPOSITERY: 654654507153.dkr.ecr.us-east-1.amazonaws.com
+          ECR_IMAGE: rahulsadu
+          
         run: |
          sudo docker build -t rahul . 
-         sudo docker run --name yaaa -d -p 5544:80 rahul
-         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
-         sudo docker tag rahul:latest 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:$IMAGE_TAG
-         sudo  docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:$IMAGE_TAG
+         sudo docker run --name rahul -d -p 1234:80 rahul
+         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
+         sudo docker tag rahul:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+         sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
