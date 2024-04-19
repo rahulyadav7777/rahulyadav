@@ -22,5 +22,5 @@ jobs:
          sudo docker build -t rahul . 
          sudo docker run --name yaaaaa -d -p 5565:80 rahul
          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 654654507153.dkr.ecr.us-east-1.amazonaws.com
-         sudo docker tag rahul:latest 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:IMAGE_TAG
-         sudo  docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:IMAGE_TAG
+         sudo docker tag rahul:latest 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:$IMAGE_TAG
+         sudo  docker push 654654507153.dkr.ecr.us-east-1.amazonaws.com/rahulsadu:$IMAGE_TAG
