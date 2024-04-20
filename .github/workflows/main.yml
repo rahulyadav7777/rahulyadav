@@ -28,7 +28,7 @@ jobs:
 
         run: |
           sudo docker build -t yadav .
-          sudo docker run --name rahulyadav-d -p :80 yadav
+          sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
           sudo apt-get install awscli -y
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region $AWS_DEFAULT_REGION
           aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
