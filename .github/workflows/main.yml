@@ -12,7 +12,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: SSH into AWS Server
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action
       - name: Dockerpull
         env:
           #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
