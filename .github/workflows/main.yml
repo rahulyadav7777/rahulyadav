@@ -30,8 +30,9 @@ jobs:
       - name: Build and Push Docker Image
         env:
           IMAGE_TAG: yadav-${{ github.run_id }}
-          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
+          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com
+          ECR_IMAGE: github
         run: |
           sudo docker build -t yadav .
-          sudo docker tag yadav:latest $ECR_REPOSITORY:$IMAGE_TAG
-          sudo docker push $ECR_REPOSITORY:$IMAGE_TAG
+          sudo docker tag yadav:latest $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
+          sudo docker push $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
