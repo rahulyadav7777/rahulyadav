@@ -17,7 +17,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           IMAGE_TAG: yadav-${{ github.run_id }}
-          ECR_REPOSITERY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
+          ECR_REPOSITERY: 342333476898.dkr.ecr.us-east-1.amazonaws.com
           ECR_IMAGE: github
           rahul: 44.211.44.187
           username: ${{ secrets.AWS_USERNAME }}
