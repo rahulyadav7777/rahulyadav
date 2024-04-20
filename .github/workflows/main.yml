@@ -1,11 +1,14 @@
-name: my new ecr code
+name: Build and Push Docker Image to ECR
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -19,40 +22,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Login to Amazon ECR Private
+
+      - name: Login to Amazon ECR Private Registry
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-      
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.AWS_SSH_PORT }}
-          script: whoami
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-      - name: Dockerpull
+
+      - name: Build and Push Docker Image
         env:
           IMAGE_TAG: yadav-${{ github.run_id }}
-          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com
-          ECR_IMAGE: github
-          
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.AWS_SSH_PORT }}
-          script: whoami
+          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
         run: |
           sudo docker build -t yadav .
-          sudo docker run --name rahulyadavvvvvcxc -d -p 55252:80 yadav
-      
-          sudo docker tag yadav:latest $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
-          sudo docker push $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
-      
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
-          sudo apt-get install awscli -y
-          sudo docker pull $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
+          sudo docker tag yadav:latest $ECR_REPOSITORY:$IMAGE_TAG
+          sudo docker push $ECR_REPOSITORY:$IMAGE_TAG
