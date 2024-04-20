@@ -36,23 +36,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y awscli
       - name: Dockerpull
-        # env:
-        #   IMAGE_TAG: yadav-${{ github.run_id }}
-        #   ECR_REPOSITERY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
-        #   ECR_IMAGE: github
-        #   rahul: 44.211.44.187
-        #   username: ${{ secrets.AWS_USERNAME }}
-        #   key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #   port: ${{ secrets.AWS_SSH_PORT }}
-
+        env:
+          IMAGE_TAG: yadav-${{ github.run_id }}
+          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
+          ECR_IMAGE: github
+          rahul: 44.211.44.187
+          port: ${{ secrets.AWS_SSH_PORT }}
         run: |
           sudo docker build -t yadav .
           sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
-
-          aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
-          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-          sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-
-        #   ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
-        #   sudo apt-get install awscli -y
-        #   sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+      
+          sudo docker tag yadav:latest $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
+          sudo docker push $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
+      
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
+          sudo apt-get install awscli -y
+          sudo docker pull $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
