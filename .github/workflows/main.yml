@@ -48,3 +48,15 @@ jobs:
             $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
           sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      - name: SSH into Server and Run Docker Container
+        uses: appleboy/ssh-action@master
+        with:
+          host: 18.213.193.21
+          username: ${{ secrets.AWS_USERNAME}}
+          key: ${{ secrets.SSH_PRIVATE_KEY  }}
+          port: ${{ secrets.AWS_SSH_PORT}}
+          script: |
+                echo "Pulling Docker image from ECR..."
+                docker pull $ECR_REPOSITORY:$IMAGE_TAG
+                echo "Running Docker container..."
+                docker run -d -p 80:80 $ECR_REPOSITORY:$IMAGE_TAG
