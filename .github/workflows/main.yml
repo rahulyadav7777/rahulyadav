@@ -33,16 +33,12 @@ jobs:
           ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
           ECR_IMAGE: github
         run: |
-         sudo docker build -t yadav .
-         sudo docker run --name aaaaa -d -p 8989:80 yadav
-         sudo apt-get update
-         sudo apt-get  install awscli -y
-         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region $AWS_DEFAULT_REGION
-         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
-         sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-         sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-         ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
-         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
-         sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
 
+          echo "Pushing image to ECR..."
 
+          docker push $ECR_REPOSITORY:$IMAGE_TAG
+
+          echo "::set-output name=image::$ECR_REPOSITORY:$IMAGE_TAG"
+          sudo apt-get install docker.io -y
+          
