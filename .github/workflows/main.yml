@@ -38,7 +38,7 @@ jobs:
       - name: Dockerpull
         env:
           IMAGE_TAG: yadav-${{ github.run_id }}
-          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
+          ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com
           ECR_IMAGE: github
           rahul: 44.211.44.187
           port: ${{ secrets.AWS_SSH_PORT }}
