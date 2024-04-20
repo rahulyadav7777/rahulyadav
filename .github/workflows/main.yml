@@ -32,7 +32,8 @@ jobs:
           IMAGE_TAG: yadav-${{ github.run_id }}
           ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
           ECR_IMAGE: github
-          host: 44.211.44.187
+          host: 18.213.193.21
+
           username: ${{ secrets.AWS_USERNAME}}
           key: ${{ secrets.SSH_PRIVATE_KEY  }}
           port: ${{ secrets.AWS_SSH_PORT}}
