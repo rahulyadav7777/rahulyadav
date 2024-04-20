@@ -9,8 +9,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Dockerpull
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -21,18 +23,12 @@ jobs:
           ECR_IMAGE: github
           rahul: 44.211.44.187
           username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.AWS_SSH_PORT }}
-        run: |
-         sudo docker build -t yadav .
-         sudo docker run --name iamrahulyadavyvv -d -p 7676:80 yadav
-         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-         aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-         aws configure set default.region $AWS_DEFAULT_REGION
-         aws ecr get-login-password --region $AWS_DEFAULT_REGION | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
 
-         sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-         sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-         ssh -i ${{ secrets.SSH_PRIVATE_KEY }} $username@$rahul "echo 'Connected to AWS server.'"
-         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
-         sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+        run: |
+          sudo docker build -t yadav .
+          sudo docker run --name iamrahulyadavyvvbgg -d -p 7675:80 yadav
+          aws ecr get-login-password --region $AWS_DEFAULT_REGION | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
+          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+          sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} $username@$rahul "echo 'Connected to AWS server.'"
+          sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
