@@ -12,28 +12,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # Build and push Docker image to Container Registry
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+      # Log in to Google Container Registry
+      - name: Log in to GCR
+        uses: docker/login-action@v2
         with:
-          context: .
-          push: true
-          tags: gcr.io/testing-gcp-ops/yadav:${{ github.run_id }}
-        env:
-          DOCKER_BUILDKIT: 1
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCP_SA_KEY }}
 
-      # SSH into GCP VM Instance
-      - name: SSH into GCP VM
-        uses: appleboy/ssh-action@master
-        with:
-          host: 35.222.124.96
-          username: ${{ secrets.GCP_VM_USERNAME }}
-          key: ${{ secrets.GCP_VM_SSH_PRIVATE_KEY }}
-          port: ${{ secrets.GCP_VM_SSH_PORT }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          ECR_REPOSITORY: gcr.io/testing-gcp-ops/yadav
-          IMAGE_TAG: ${{ github.run_id }}
-        run: |
+      # Build Docker image
+      - name: Build Docker image
+        run: docker build -t gcr.io/testing-gcp-ops/suresh:latest .
+
+      # Push Docker image to GCR
+      - name: Push Docker image to GCR
+        run: docker push gcr.io/testing-gcp-ops/suresh:latest
