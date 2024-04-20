@@ -31,7 +31,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.AWS_SSH_PORT }}
           script: whoami
-        
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
       - name: Dockerpull
         env:
           IMAGE_TAG: yadav-${{ github.run_id }}
@@ -45,7 +48,7 @@ jobs:
         run: |
           sudo docker build -t yadav .
           sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
-          sudo apt-get install awscli
+
           aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
           sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
           sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
