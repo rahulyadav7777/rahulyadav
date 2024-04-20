@@ -23,8 +23,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       
-      - name: SSH into AWS Server
+      - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT }}
+          script: whoami
         
       - name: Dockerpull
         env:
@@ -44,6 +50,6 @@ jobs:
           sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
           sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
 
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} $username@$rahul "echo 'Connected to AWS server.'"
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
           sudo apt-get install awscli -y
           sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
