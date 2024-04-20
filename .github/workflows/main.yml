@@ -25,9 +25,7 @@ jobs:
           port: ${{ secrets.AWS_SSH_PORT }}
         run: |
          sudo docker build -t yadav .
-         sudo docker run --name iamrahulyadav -d -p 7412:80 yadav
-         sudo apt-get update
-         sudo apt-get  install awscli -y
+         sudo docker run --name iamrahulyadavy -d -p 1245:80 yadav
          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region $AWS_DEFAULT_REGION
          aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
