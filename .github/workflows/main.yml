@@ -40,8 +40,12 @@ jobs:
           IMAGE_TAG: yadav-${{ github.run_id }}
           ECR_REPOSITORY: 342333476898.dkr.ecr.us-east-1.amazonaws.com
           ECR_IMAGE: github
-          rahul: 44.211.44.187
+          
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.AWS_SSH_PORT }}
+          script: whoami
         run: |
           sudo docker build -t yadav .
           sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
