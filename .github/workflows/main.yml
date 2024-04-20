@@ -45,14 +45,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.AWS_SSH_PORT }}
 
-        run: |
-          sudo docker build -t yadav .
-          sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
+        # run: |
+        #   sudo docker build -t yadav .
+        #   sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
 
-          aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
-          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
-          sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+        #   aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
+        #   sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+        #   sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
 
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
-          sudo apt-get install awscli -y
-          sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+        #   ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@44.211.44.187 "echo 'Connected to AWS server.'"
+        #   sudo apt-get install awscli -y
+        #   sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
