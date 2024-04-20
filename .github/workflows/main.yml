@@ -48,7 +48,7 @@ jobs:
           script: whoami
         run: |
           sudo docker build -t yadav .
-          sudo docker run --name rahulyadavvvvv -d -p 2589:80 yadav
+          sudo docker run --name rahulyadavvvvvcxc -d -p 55252:80 yadav
       
           sudo docker tag yadav:latest $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
           sudo docker push $ECR_REPOSITORY/$ECR_IMAGE:$IMAGE_TAG
