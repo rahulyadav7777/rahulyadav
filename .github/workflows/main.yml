@@ -13,8 +13,8 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Dockerpull
         env:
-          #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           IMAGE_TAG: yadav-${{ github.run_id }}
           ECR_REPOSITERY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
@@ -25,9 +25,10 @@ jobs:
           port: ${{ secrets.AWS_SSH_PORT }}
         run: |
          sudo docker build -t yadav .
-         sudo docker run --name iamrahul -d -p 7410:80 yadav
+         sudo docker run --name iamrahulyadav -d -p 7412:80 yadav
          sudo apt-get update
          sudo apt-get  install awscli -y
+         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region $AWS_DEFAULT_REGION
          aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
          sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
          sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
