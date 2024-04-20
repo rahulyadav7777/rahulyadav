@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo docker build -t yadav .
           sudo docker run --name iamrahulyadavyvvbgg -d -p 7675:80 yadav
-          aws ecr get-login-password --region $AWS_DEFAULT_REGION | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
+          aws ecr get-login-password --region us-est-1 | sudo docker login --username AWS --password-stdin $ECR_REPOSITERY
           sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
           sudo docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} $username@$rahul "echo 'Connected to AWS server.'"
