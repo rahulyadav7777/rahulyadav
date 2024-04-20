@@ -1,29 +1,38 @@
-name: my new gcp code
-
+name: my new ecr code
 on:
   push:
     branches:
       - main
-
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      # Log in to Google Container Registry
-      - name: Log in to GCR
-        uses: docker/login-action@v2
-        with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCP_SA_KEY }}
-
-      # Build Docker image
-      - name: Build Docker image
-        run: docker build -t gcr.io/testing-gcp-ops/suresh:latest .
-
-      # Push Docker image to GCR
-      - name: Push Docker image to GCR
-        run: docker push gcr.io/testing-gcp-ops/suresh:latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: SSH into AWS Server
+        uses: appleboy/ssh-action@master
+      - name: Dockerpull
+        env:
+          #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          IMAGE_TAG: yadav-${{ github.run_id }}
+          ECR_REPOSITERY: 342333476898.dkr.ecr.us-east-1.amazonaws.com/github
+          ECR_IMAGE: github
+          rahul: 44.211.44.187
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT }}
+        run: |
+         sudo docker build -t yadav .
+         sudo docker run --name iamrahul -d -p 7410:80 yadav
+         sudo apt-get update
+         sudo apt-get  install awscli -y
+         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
+         sudo docker tag yadav:latest $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+         sudo  docker push $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
+         ssh -i ${{ secrets.SSH_PRIVATE_KEY }} $username@$rahul "echo 'Connected to AWS server.'"
+         aws ecr get-login-password --region us-east-1 | sudo  docker login --username AWS --password-stdin $ECR_REPOSITERY
+         sudo docker pull $ECR_REPOSITERY/$ECR_IMAGE:$IMAGE_TAG
